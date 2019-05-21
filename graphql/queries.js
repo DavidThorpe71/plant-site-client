@@ -1,0 +1,10 @@
+import gql from "graphql-tag";
+
+export const GET_PLANT_BY_PERMALINK = gql`
+  query getPlant($permalink: String) {
+    getPlant(permalink: $permalink) {
+      name
+      permalink
+    }
+  }
+`;
