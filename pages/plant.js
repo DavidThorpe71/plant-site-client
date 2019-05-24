@@ -5,7 +5,7 @@ const plant = props => {
   const {
     query: { plant }
   } = props;
-
+  console.log(props);
   return (
     <Query query={GET_PLANT_BY_PERMALINK} variables={{ permalink: plant }}>
       {({ data, loading, error }) => {

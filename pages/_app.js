@@ -6,7 +6,8 @@ import withApolloClient from "../lib/with-apollo-client";
 
 const theme = {
   colors: {
-    primary: "#57976d"
+    primary: "#57976d",
+    background: "#f2f2f2"
   }
 };
 

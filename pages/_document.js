@@ -1,6 +1,14 @@
 import Document from "next/document";
-import { ServerStyleSheet } from "styled-components";
+import { ServerStyleSheet, createGlobalStyle } from "styled-components";
+import Head from "next/head";
 
+const GlobalStyles = createGlobalStyle`
+  body {
+    background-color: #f2f2f2;
+    margin: 0;
+    box-sizing: border-box;
+  }
+`;
 export default class MyDocument extends Document {
   static async getInitialProps(ctx) {
     const sheet = new ServerStyleSheet();
@@ -9,7 +17,21 @@ export default class MyDocument extends Document {
     try {
       ctx.renderPage = () =>
         originalRenderPage({
-          enhanceApp: App => props => sheet.collectStyles(<App {...props} />)
+          enhanceApp: App => props =>
+            sheet.collectStyles(
+              <>
+                <GlobalStyles />
+                <Head>
+                  <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+                  <meta
+                    name="viewport"
+                    content="width=device-width, initial-scale=1"
+                  />
+                  <title>Website Title</title>
+                </Head>
+                <App {...props} />
+              </>
+            )
         });
 
       const initialProps = await Document.getInitialProps(ctx);

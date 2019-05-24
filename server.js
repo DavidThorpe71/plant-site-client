@@ -16,11 +16,7 @@ app
       const queryParams = { plant: req.params.plant };
       app.render(req, res, actualPage, queryParams);
     });
-    server.get("/", (req, res) => {
-      const actualPage = "/index";
-      const queryParams = {};
-      app.render(req, res, actualPage, queryParams);
-    });
+
     server.get("*", (req, res) => handle(req, res));
     server.listen(7777, err => {
       if (err) throw err;
