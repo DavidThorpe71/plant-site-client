@@ -12,7 +12,7 @@ app
     const server = express();
     server.use(cookieParser());
     server.get("/:plant", (req, res) => {
-      const actualPage = "/plant";
+      const actualPage = "/individualPlant";
       const queryParams = { plant: req.params.plant };
       app.render(req, res, actualPage, queryParams);
     });

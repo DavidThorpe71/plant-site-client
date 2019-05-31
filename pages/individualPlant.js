@@ -1,7 +1,7 @@
-import { Query } from "react-apollo";
-import { GET_PLANT_BY_PERMALINK } from "../graphql/queries";
+import { Query } from 'react-apollo';
+import { GET_PLANT_BY_PERMALINK } from '../graphql/queries';
 
-const plant = props => {
+const individualPlant = (props) => {
   const {
     query: { plant }
   } = props;
@@ -24,4 +24,4 @@ const plant = props => {
   );
 };
 
-export default plant;
+export default individualPlant;
