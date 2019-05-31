@@ -28,6 +28,7 @@ export default class MyDocument extends Document {
                     content="width=device-width, initial-scale=1"
                   />
                   <title>Website Title</title>
+                  <link rel="shortcut icon" href="/static/favicon.ico" />
                 </Head>
                 <App {...props} />
               </>

@@ -4,9 +4,8 @@ import Link from "next/link";
 import { GET_ALL_PLANTS } from "../graphql/queries";
 import Header from "../components/Header";
 import Inner from "../components/Inner";
-import HomePage from "../components/HomePage";
 
-export default props => (
+export default () => (
   <Query query={GET_ALL_PLANTS}>
     {({ data, loading, error }) => {
       if (loading) {
@@ -20,7 +19,25 @@ export default props => (
         <>
           <Header />
           <Inner>
-            <HomePage />
+            <div className="plants-container">
+              {getPlants.map(plant => (
+                <div className="each-plant" key={plant.permalink}>
+                  <Link
+                    href={{
+                      pathname: `/plant`,
+                      query: { plant: plant.permalink }
+                    }}
+                    as={`/${plant.permalink}`}
+                    // prefetch
+                  >
+                    <a>
+                      <h1>{plant.name}</h1>
+                    </a>
+                  </Link>
+                  <p>light needs: {plant.light}</p>
+                </div>
+              ))}
+            </div>
           </Inner>
         </>
       );
