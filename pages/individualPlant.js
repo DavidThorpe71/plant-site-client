@@ -1,7 +1,7 @@
-import { Query } from 'react-apollo';
-import { GET_PLANT_BY_PERMALINK } from '../graphql/queries';
+import { Query } from "react-apollo";
+import { GET_PLANT_BY_PERMALINK } from "../graphql/queries";
 
-const individualPlant = (props) => {
+const individualPlant = props => {
   const {
     query: { plant }
   } = props;
@@ -16,9 +16,14 @@ const individualPlant = (props) => {
           return <p>Error</p>;
         }
         const {
-          getPlant: { name, permalink }
+          getPlant: { name, permalink, image }
         } = data;
-        return <h1>{name}</h1>;
+        return (
+          <div className="plant-container">
+            <h1>{name}</h1>
+            {image && <img src={image} alt={name} />}
+          </div>
+        );
       }}
     </Query>
   );

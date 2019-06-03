@@ -15,6 +15,7 @@ export const GET_PLANT_BY_PERMALINK = gql`
     getPlant(permalink: $permalink) {
       name
       permalink
+      image
     }
   }
 `;

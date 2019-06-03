@@ -1,16 +1,12 @@
-import React, { useState } from 'react';
-import { Query } from 'react-apollo';
-import Link from 'next/link';
-import { GET_ALL_PLANTS } from '../graphql/queries';
-import Header from '../components/Header';
-import Inner from '../components/Inner';
+import React from "react";
+import { Query } from "react-apollo";
+import Link from "next/link";
+import { GET_ALL_PLANTS } from "../graphql/queries";
+import Header from "../components/Header";
+import Inner from "../components/Inner";
+import AddPlantForm from "../components/AddPlantForm";
 
-const handleSubmit = ({ e, file }) => {
-  console.log({ e, file });
-};
-
-const index = () => {
-  const [file, setFile] = useState();
+const index = props => {
   return (
     <Query query={GET_ALL_PLANTS}>
       {({ data, loading, error }) => {
@@ -25,22 +21,7 @@ const index = () => {
           <>
             <Header />
             <Inner>
-              <div className="add-plant">
-                <label htmlFor="image">
-                  Add Image
-                  <input
-                    type="file"
-                    name="image"
-                    id="image"
-                    onChange={(e) => {
-                      setFile(e.target.files[0]);
-                    }}
-                  />
-                </label>
-                <button type="button" onClick={e => handleSubmit({ e, file })}>
-                  Submit
-                </button>
-              </div>
+              <AddPlantForm />
               <div className="plants-container">
                 {getPlants.map(plant => (
                   <div className="each-plant" key={plant.permalink}>
