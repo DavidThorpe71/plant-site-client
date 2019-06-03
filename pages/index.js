@@ -6,7 +6,7 @@ import Header from "../components/Header";
 import Inner from "../components/Inner";
 import AddPlantForm from "../components/AddPlantForm";
 
-const index = props => {
+const index = () => {
   return (
     <Query query={GET_ALL_PLANTS}>
       {({ data, loading, error }) => {
