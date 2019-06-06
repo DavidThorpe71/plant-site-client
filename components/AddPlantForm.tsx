@@ -140,8 +140,10 @@ class AddPlantForm extends PureComponent {
                   value={light}
                   onChange={e => this.handleChange(e)}
                 >
-                  {lightOptions.map(item => (
-                    <option value={item}>{item}</option>
+                  {lightOptions.map((item, i) => (
+                    <option value={item} key={`${item}-${i}`}>
+                      {item}
+                    </option>
                   ))}
                 </select>
               </label>
