@@ -1,6 +1,5 @@
 import { Query } from "react-apollo";
 import { GET_PLANT_BY_PERMALINK } from "../graphql/queries";
-import { string } from "prop-types";
 
 interface Data {
   getPlant: {
@@ -40,7 +39,7 @@ const individualPlant = (props: Props) => {
           return <p>Error</p>;
         }
         const {
-          getPlant: { name, permalink, image }
+          getPlant: { name, image }
         } = data;
         return (
           <div className="plant-container">

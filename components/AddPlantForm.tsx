@@ -1,12 +1,27 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent, ChangeEvent } from "react";
 import { Mutation } from "react-apollo";
 import { GET_ALL_PLANTS } from "../graphql/queries";
 import { ADD_PLANT } from "../graphql/mutations";
 import { CLOUDINARY_ENDPOINT, CLOUDINARY_KEY } from "../env";
+interface Data {
+  addPlant: {
+    _id: string;
+    name: string;
+  };
+}
+
+interface Variables {
+  name: string;
+  latinName: string;
+  location: string;
+  image: string;
+  wateringInstructions: string;
+  light: string;
+}
 
 class AddPlantForm extends PureComponent {
   state = {
-    file: {},
+    file: "",
     name: "",
     latinName: "",
     location: "",
@@ -15,21 +30,26 @@ class AddPlantForm extends PureComponent {
     light: ""
   };
 
-  handleChange = e => {
+  handleChange = (
+    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
+  ) => {
     e.preventDefault();
     this.setState({
       [e.target.name]: e.target.value
     });
   };
 
-  handleImageChange = e => {
+  handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
+    if (!e || !e.target || !e.target.files) {
+      return null;
+    }
     this.setState({
       file: e.target.files[0]
     });
   };
 
-  handleSubmit = async ({ e, addPlant }) => {
+  handleSubmit = async ({ addPlant }: { addPlant: Function }) => {
     const endpoint = `https://api.cloudinary.com/v1_1/${CLOUDINARY_ENDPOINT}/image/upload`;
     const { file } = this.state;
 
@@ -37,7 +57,7 @@ class AddPlantForm extends PureComponent {
     formData.append("file", file);
     formData.append("upload_preset", "ccnpbaqp"); // Replace the preset name with your own
     formData.append("api_key", `${CLOUDINARY_KEY}`); // Replace API key with your own Cloudinary key
-    formData.append("timestamp", Date.now()); // Possible fix for no-bitwise parseInt((Date.now() / 1000).toFixed(), 10)
+    formData.append("timestamp", String(Date.now())); // Possible fix for no-bitwise parseInt((Date.now() / 1000).toFixed(), 10)
 
     const plantPicture = await fetch(endpoint, {
       method: `POST`,
@@ -64,7 +84,7 @@ class AddPlantForm extends PureComponent {
     const lightOptions = ["None", "Shade", "Indirect", "Direct"];
 
     return (
-      <Mutation
+      <Mutation<Data, Variables>
         mutation={ADD_PLANT}
         variables={{
           name,
@@ -152,12 +172,14 @@ class AddPlantForm extends PureComponent {
                   !latinName ||
                   !location ||
                   !wateringInstructions ||
-                  !light
+                  !light ||
+                  loading
                 }
-                onClick={e => this.handleSubmit({ e, addPlant })}
+                onClick={() => this.handleSubmit({ addPlant })}
               >
                 Submit
               </button>
+              {error && <span>Unable to submit this</span>}
             </div>
           </>
         )}

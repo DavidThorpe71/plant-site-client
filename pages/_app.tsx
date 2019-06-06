@@ -1,8 +1,9 @@
 import App, { Container } from "next/app";
 import React from "react";
-import { ApolloProvider } from "react-apollo";
+import { ApolloProvider, WithApolloClient } from "react-apollo";
 import { ThemeProvider } from "styled-components";
 import withApolloClient from "../lib/with-apollo-client";
+import { NextComponentType } from "next";
 
 const theme = {
   colors: {
@@ -11,9 +12,21 @@ const theme = {
   }
 };
 
-class MyApp extends App {
-  static async getInitialProps({ Component, ctx }) {
-    let pageProps = {};
+export interface Ctx {
+  query: {};
+  pathname: string;
+  asPath: string;
+}
+
+class MyApp extends App<WithApolloClient<any>> {
+  static async getInitialProps({
+    Component,
+    ctx
+  }: {
+    Component: NextComponentType;
+    ctx: Ctx;
+  }) {
+    let pageProps: { query?: {} } = {};
 
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx);

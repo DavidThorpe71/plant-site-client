@@ -6,6 +6,7 @@
   "author": "David Thorpe <davidthorpe878@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "tsc": "tsc",
     "dev": "node server.js",
     "build": "next build",
     "start": "next start"
@@ -13,6 +14,7 @@
   "dependencies": {
     "@types/next": "^8.0.5",
     "@types/react": "^16.8.19",
+    "@types/styled-components": "^4.1.16",
     "@zeit/next-typescript": "^1.1.1",
     "apollo-boost": "^0.3.1",
     "apollo-cache-inmemory": "^1.6.0",
@@ -30,7 +32,8 @@
     "react": "^16.8.6",
     "react-apollo": "^2.5.5",
     "react-dom": "^16.8.6",
-    "styled-components": "^4.2.0"
+    "styled-components": "^4.2.0",
+    "typescript": "^3.5.1"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
