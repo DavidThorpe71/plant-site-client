@@ -4,9 +4,10 @@ import Head from "next/head";
 
 const GlobalStyles = createGlobalStyle`
   body {
-    background-color: #f2f2f2;
+    background-color: #f1f9f1;
     margin: 0;
     box-sizing: border-box;
+    font-family: 'Muli', sans-serif;
   }
 `;
 export default class MyDocument extends Document {
@@ -27,8 +28,11 @@ export default class MyDocument extends Document {
                     name="viewport"
                     content="width=device-width, initial-scale=1"
                   />
-                  <title>Website Title</title>
-                  <link rel="shortcut icon" href="/static/favicon.ico" />
+                  <title>Plant site</title>
+                  <link
+                    href="https://fonts.googleapis.com/css?family=Muli:400,600&display=swap"
+                    rel="stylesheet"
+                  />
                 </Head>
                 <App {...props} />
               </>

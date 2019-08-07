@@ -5,6 +5,7 @@ const individualPlant = props => {
   const {
     query: { plant }
   } = props;
+  console.log({ plant });
   return (
     <Query query={GET_PLANT_BY_PERMALINK} variables={{ permalink: plant }}>
       {({ data, loading, error }) => {
@@ -15,6 +16,7 @@ const individualPlant = props => {
         if (error) {
           return <p>Error</p>;
         }
+        console.log({ data });
         const {
           getPlant: { name, permalink, image }
         } = data;
