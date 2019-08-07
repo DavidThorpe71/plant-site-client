@@ -1,5 +1,5 @@
 import { Query } from "react-apollo";
-import { GET_PLANT_BY_PERMALINK } from "../graphql/queries";
+import { GET_PLANT_BY_PERMALINK } from "../../graphql/queries";
 
 interface Data {
   getPlant: {
