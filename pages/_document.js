@@ -4,7 +4,7 @@ import Head from "next/head";
 
 const GlobalStyles = createGlobalStyle`
   body {
-    background-color: #f1f9f1;
+    background-color: #51a751;
     margin: 0;
     box-sizing: border-box;
     font-family: 'Muli', sans-serif;
@@ -32,6 +32,11 @@ export default class MyDocument extends Document {
                   <link
                     href="https://fonts.googleapis.com/css?family=Muli:400,600&display=swap"
                     rel="stylesheet"
+                  />
+                  <link
+                    rel="icon"
+                    href="/static/images/favicon.ico"
+                    type="image/x-icon"
                   />
                 </Head>
                 <App {...props} />

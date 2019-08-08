@@ -14,6 +14,7 @@ const HeaderWrapper = styled.div`
       text-transform: uppercase;
       letter-spacing: 1px;
       color: #014c01;
+      font-family: "Muli", sans-serif;
     }
   }
 `;
@@ -22,7 +23,7 @@ const Header = () => {
   return (
     <HeaderWrapper>
       <div className="title">
-        <h1>🌵 Plant site</h1>
+        <h1>🍂 Plant site</h1>
       </div>
     </HeaderWrapper>
   );
