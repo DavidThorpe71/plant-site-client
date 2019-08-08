@@ -3,7 +3,6 @@ import { useQuery } from "@apollo/react-hooks";
 import Link from "next/link";
 import { GET_ALL_PLANTS } from "../graphql/queries";
 import AddPlantForm from "../components/AddPlantForm";
-import Layout from "../components/Layout";
 
 const PlantPageLink = props => (
   <Link href="/[plantName]" as={`/${props.plant.permalink}`}>

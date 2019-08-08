@@ -17,6 +17,9 @@ export const GET_PLANT_BY_PERMALINK = gql`
       latinName
       permalink
       image
+      wateringInstructions
+      light
+      location
     }
   }
 `;

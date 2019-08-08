@@ -110,7 +110,7 @@ const AddPlantForm = () => {
   };
 
   const handleSubmit = async ({ addPlant }) => {
-    const endpoint = `https://api.cloudinary.com/v1_1/${CLOUDINARY_ENDPOINT}/image/upload`;
+    const endpoint = `https://api.cloudinary.com/v1_1/${CLOUDINARY_ENDPOINT}/image/upload/w_1000,q_auto:best`;
     const formData = new FormData();
     formData.append("file", file);
     formData.append("upload_preset", "ccnpbaqp"); // Replace the preset name with your own

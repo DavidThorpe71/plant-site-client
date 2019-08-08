@@ -1,14 +1,13 @@
 import { useQuery } from "@apollo/react-hooks";
 import { GET_PLANT_BY_PERMALINK } from "../graphql/queries";
 import PlantStyles from "../styles/PlantStyles";
-import Header from "../components/Header";
 import { useRouter } from "next/router";
 
 const individualPlant = () => {
   const router = useRouter();
   const { loading, error, data } = useQuery(GET_PLANT_BY_PERMALINK, {
     variables: {
-      permalink: router.query.plantName
+      permalink: router && router.query && router.query.plantName
     }
   });
 
@@ -20,7 +19,7 @@ const individualPlant = () => {
   }
 
   const {
-    getPlant: { name, latinName, permalink, image }
+    getPlant: { name, latinName, location, image, wateringInstructions, light }
   } = data;
   return (
     <PlantStyles>
@@ -28,6 +27,15 @@ const individualPlant = () => {
         <h1>{name}</h1>
         <p className="latin-name">{latinName}</p>
         {image && <img src={image} alt={name} />}
+        <p>
+          Origin: <span className="location">{location}</span>
+        </p>
+        <p>
+          Watering: <span className="watering">{wateringInstructions}</span>
+        </p>
+        <p>
+          Light: <span className="light">{light}</span>
+        </p>
       </div>
     </PlantStyles>
   );

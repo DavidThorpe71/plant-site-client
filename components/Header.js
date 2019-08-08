@@ -14,9 +14,13 @@ const HeaderWrapper = styled.div`
       margin: 0;
       text-transform: uppercase;
       letter-spacing: 1px;
-      color: #014c01;
+      color: #014c01 !important;
       font-family: "Muli", sans-serif;
     }
+  }
+  a {
+    text-decoration: none;
+    color: #014c01 !important;
   }
 `;
 
@@ -25,7 +29,7 @@ const Header = () => {
     <HeaderWrapper>
       <div className="title">
         <h1>
-          <Link href="/">
+          <Link href="/" as={`/`}>
             <a>🍂 Plant site</a>
           </Link>
         </h1>
