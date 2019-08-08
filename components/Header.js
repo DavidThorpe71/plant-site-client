@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Link from "next/link";
 
 const HeaderWrapper = styled.div`
   background-color: #fff;
@@ -23,7 +24,11 @@ const Header = () => {
   return (
     <HeaderWrapper>
       <div className="title">
-        <h1>🍂 Plant site</h1>
+        <h1>
+          <Link href="/">
+            <a>🍂 Plant site</a>
+          </Link>
+        </h1>
       </div>
     </HeaderWrapper>
   );

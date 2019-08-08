@@ -14,6 +14,7 @@ export const GET_PLANT_BY_PERMALINK = gql`
   query getPlant($permalink: String) {
     getPlant(permalink: $permalink) {
       name
+      latinName
       permalink
       image
     }

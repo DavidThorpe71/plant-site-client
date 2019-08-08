@@ -2,9 +2,14 @@ import React from "react";
 import { useQuery } from "@apollo/react-hooks";
 import Link from "next/link";
 import { GET_ALL_PLANTS } from "../graphql/queries";
-import Header from "../components/Header";
-import Inner from "../components/Inner";
 import AddPlantForm from "../components/AddPlantForm";
+import Layout from "../components/Layout";
+
+const PlantPageLink = props => (
+  <Link href="/[plantName]" as={`/${props.plant.permalink}`}>
+    <a>{props.plant.name}</a>
+  </Link>
+);
 
 const index = () => {
   const { loading, error, data } = useQuery(GET_ALL_PLANTS);
@@ -17,29 +22,15 @@ const index = () => {
   const { getPlants } = data;
   return (
     <>
-      <Header />
-      <Inner>
-        <AddPlantForm />
-        <div className="plants-container">
-          {getPlants.map(plant => (
-            <div className="each-plant" key={plant.permalink}>
-              <Link
-                href={{
-                  pathname: `/individualPlant`,
-                  query: { plant: plant.permalink }
-                }}
-                as={`/${plant.permalink}`}
-                // prefetch
-              >
-                <a>
-                  <h1>{plant.name}</h1>
-                </a>
-              </Link>
-              <p>light needs: {plant.light}</p>
-            </div>
-          ))}
-        </div>
-      </Inner>
+      <AddPlantForm />
+      <div className="plants-container">
+        {getPlants.map(plant => (
+          <div className="each-plant" key={plant.permalink}>
+            <PlantPageLink plant={plant} />
+            <p>light needs: {plant.light}</p>
+          </div>
+        ))}
+      </div>
     </>
   );
 };

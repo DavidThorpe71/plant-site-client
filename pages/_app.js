@@ -3,6 +3,7 @@ import React from "react";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { ThemeProvider } from "styled-components";
 import withApolloClient from "../lib/with-apollo-client";
+import Layout from "../components/Layout";
 
 const theme = {
   colors: {
@@ -33,7 +34,9 @@ class MyApp extends App {
       <Container>
         <ApolloProvider client={apolloClient}>
           <ThemeProvider theme={theme}>
-            <Component url={url} {...pageProps} />
+            <Layout>
+              <Component url={url} {...pageProps} />
+            </Layout>
           </ThemeProvider>
         </ApolloProvider>
       </Container>
