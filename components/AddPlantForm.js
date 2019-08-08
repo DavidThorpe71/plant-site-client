@@ -1,5 +1,5 @@
-import React, { PureComponent } from "react";
-import { Mutation } from "react-apollo";
+import React, { useState } from "react";
+import { useMutation } from "@apollo/react-hooks";
 import { GET_ALL_PLANTS } from "../graphql/queries";
 import { ADD_PLANT } from "../graphql/mutations";
 import { CLOUDINARY_ENDPOINT, CLOUDINARY_KEY } from "../env";
@@ -78,39 +78,39 @@ const AddPlantFormStyles = styled.div`
       border-radius: 3px;
       font-size: 18px;
       letter-spacing: 1px;
+      :disabled {
+        background-color: #b1b1b1;
+      }
     }
   }
 `;
 
-class AddPlantForm extends PureComponent {
-  state = {
-    file: {},
+const AddPlantForm = () => {
+  const [file, setFile] = useState({});
+  const [image, setImage] = useState("");
+  const [values, setValues] = useState({
     name: "",
     latinName: "",
     location: "",
-    image: "",
     wateringInstructions: "",
     light: ""
-  };
+  });
 
-  handleChange = e => {
+  const handleChange = e => {
     e.preventDefault();
-    this.setState({
+    setValues({
+      ...values,
       [e.target.name]: e.target.value
     });
   };
 
-  handleImageChange = e => {
+  const handleImageChange = e => {
     e.preventDefault();
-    this.setState({
-      file: e.target.files[0]
-    });
+    setFile(e.target.files[0]);
   };
 
-  handleSubmit = async ({ e, addPlant }) => {
+  const handleSubmit = async ({ addPlant }) => {
     const endpoint = `https://api.cloudinary.com/v1_1/${CLOUDINARY_ENDPOINT}/image/upload`;
-    const { file } = this.state;
-
     const formData = new FormData();
     formData.append("file", file);
     formData.append("upload_preset", "ccnpbaqp"); // Replace the preset name with your own
@@ -123,136 +123,117 @@ class AddPlantForm extends PureComponent {
     })
       .then(response => response.json())
       .catch(error => console.error("Error:", error));
-    await this.setState({
-      image: plantPicture.secure_url
-    });
+    await setImage(plantPicture.secure_url);
     addPlant();
   };
 
-  render() {
-    const {
+  const lightOptions = ["None", "Shade", "Indirect", "Direct"];
+  const { name, latinName, location, wateringInstructions, light } = values;
+  const [addPlant, { data }] = useMutation(ADD_PLANT, {
+    variables: {
       name,
       latinName,
       location,
       image,
       wateringInstructions,
       light
-    } = this.state;
+    },
+    refetchQueries: [
+      {
+        query: GET_ALL_PLANTS
+      }
+    ]
+  });
+  return (
+    <AddPlantFormStyles>
+      <div className="add-plant">
+        <label htmlFor="name">
+          Name
+          <input
+            className="text-input"
+            type="text"
+            name="name"
+            id="name"
+            value={name}
+            onChange={e => handleChange(e)}
+            placeholder="Chinese money plant"
+          />
+        </label>
+        <label htmlFor="latinName">
+          Latin name
+          <input
+            className="text-input"
+            type="text"
+            name="latinName"
+            id="latinName"
+            value={latinName}
+            onChange={e => handleChange(e)}
+            placeholder="Pilea peperomioides"
+          />
+        </label>
+        <label htmlFor="wateringInstructions">
+          Watering instructions
+          <input
+            className="text-input"
+            type="text"
+            name="wateringInstructions"
+            id="wateringInstructions"
+            value={wateringInstructions}
+            onChange={e => handleChange(e)}
+            placeholder="Once a week"
+          />
+        </label>
+        <label htmlFor="light">
+          Light requirements
+          <select
+            className="select-input"
+            name="light"
+            value={light}
+            onChange={e => handleChange(e)}
+          >
+            {lightOptions.map(item => (
+              <option value={item} key={item}>
+                {item}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label htmlFor="location">
+          Where does it originate from
+          <input
+            className="text-input"
+            type="text"
+            name="location"
+            id="location"
+            value={location}
+            onChange={e => handleChange(e)}
+            placeholder="Southern China"
+          />
+        </label>
+        <label htmlFor="image" className="custom-file-upload">
+          Add Image
+          <input
+            className="file-input"
+            type="file"
+            name="image"
+            id="image"
+            onChange={e => handleImageChange(e)}
+          />
+        </label>
 
-    const lightOptions = ["None", "Shade", "Indirect", "Direct"];
-
-    return (
-      <Mutation
-        mutation={ADD_PLANT}
-        variables={{
-          name,
-          latinName,
-          location,
-          image,
-          wateringInstructions,
-          light
-        }}
-        refetchQueries={[
-          {
-            query: GET_ALL_PLANTS
+        <button
+          className="add-plant-button"
+          type="button"
+          disabled={
+            !name || !latinName || !location || !wateringInstructions || !light
           }
-        ]}
-      >
-        {(addPlant, { loading, error }) => (
-          <AddPlantFormStyles>
-            <div className="add-plant">
-              <label htmlFor="name">
-                Name
-                <input
-                  className="text-input"
-                  type="text"
-                  name="name"
-                  id="name"
-                  value={name}
-                  onChange={e => this.handleChange(e)}
-                  placeholder="Chinese money plant"
-                />
-              </label>
-              <label htmlFor="latinName">
-                Latin name
-                <input
-                  className="text-input"
-                  type="text"
-                  name="latinName"
-                  id="latinName"
-                  value={latinName}
-                  onChange={e => this.handleChange(e)}
-                  placeholder="Pilea peperomioides"
-                />
-              </label>
-              <label htmlFor="wateringInstructions">
-                Watering instructions
-                <input
-                  className="text-input"
-                  type="text"
-                  name="wateringInstructions"
-                  id="wateringInstructions"
-                  value={wateringInstructions}
-                  onChange={e => this.handleChange(e)}
-                  placeholder="Once a week"
-                />
-              </label>
-              <label htmlFor="light">
-                Light requirements
-                <select
-                  className="select-input"
-                  name="light"
-                  value={light}
-                  onChange={e => this.handleChange(e)}
-                >
-                  {lightOptions.map(item => (
-                    <option value={item}>{item}</option>
-                  ))}
-                </select>
-              </label>
-              <label htmlFor="location">
-                Where does it originate from
-                <input
-                  className="text-input"
-                  type="text"
-                  name="location"
-                  id="location"
-                  value={location}
-                  onChange={e => this.handleChange(e)}
-                  placeholder="Southern China"
-                />
-              </label>
-              <label htmlFor="image" className="custom-file-upload">
-                Add Image
-                <input
-                  className="file-input"
-                  type="file"
-                  name="image"
-                  id="image"
-                  onChange={e => this.handleImageChange(e)}
-                />
-              </label>
-
-              <button
-                className="add-plant-button"
-                type="button"
-                disabled={
-                  !name ||
-                  !latinName ||
-                  !location ||
-                  !wateringInstructions ||
-                  !light
-                }
-                onClick={e => this.handleSubmit({ e, addPlant })}
-              >
-                Add plant
-              </button>
-            </div>
-          </AddPlantFormStyles>
-        )}
-      </Mutation>
-    );
-  }
-}
+          onClick={() => handleSubmit({ addPlant })}
+        >
+          Add plant
+        </button>
+      </div>
+    </AddPlantFormStyles>
+  );
+};
 
 export default AddPlantForm;
